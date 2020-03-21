@@ -50,10 +50,15 @@
       - libsasl2-dev
     state: present
 
-- name: Make sure python-ldap module is present
+- name: Make sure pip wheel module is present before anything else
   pip:
     name:
       - wheel
+    state: present
+
+- name: Make sure python-ldap pip module is present
+  pip:
+    name:
       - python-ldap
     state: present
 
