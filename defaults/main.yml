@@ -1,5 +1,5 @@
 ---
-openldap_org: your_company
+openldap_org: company
 openldap_tld: com
 openldap_base: "dc={{ openldap_org }},dc={{ openldap_tld }}"
 domain_name: "{{ openldap_org }}.{{ openldap_tld }}"
