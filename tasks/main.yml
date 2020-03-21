@@ -10,16 +10,16 @@
       value: HDB
       vtype: string
     - question: slapd/move_old_database
-      value: true
+      value: 'true'
       vtype: boolean
     - question: slapd/dump_database_destdir
       value: /var/backups/slapd-VERSION
       vtype: string
     - question: slapd/allow_ldap_v2
-      value: false
+      value: 'false'
       vtype: boolean
     - question: slapd/purge_database
-      value: false
+      value: 'false'
       vtype: boolean
     - question: slapd/domain
       value: "{{ domain_name }}"
