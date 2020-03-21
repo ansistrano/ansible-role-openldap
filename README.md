@@ -1,1 +1,3 @@
-# ansible-role-openldap
+OpenLDAP Ansible role
+=====================
+
