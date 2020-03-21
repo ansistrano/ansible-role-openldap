@@ -64,11 +64,11 @@
   copy:
     src: pw.ldif
     dest: /tmp/pw.ldif
-  when: pw_sha2.stdout == ""
+  when: pw_sha2.stdout == "" | bool
 
 - name: load password module for openldap if we haven't yet
-  command: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif #ldapmodify -Y EXTERNAL -H ldapi:/// -f pw.ldif
-  when: pw_sha2.stdout == ""
+  command: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif
+  when: pw_sha2.stdout == "" | bool
 
 - name: calculate admin password hash
   shell: "echo -n '{{ openldap_admin_password }}' | openssl dgst -sha512 -binary | openssl enc -base64"
