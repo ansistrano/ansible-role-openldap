@@ -86,7 +86,6 @@
     state: exact
     bind_dn: "cn=admin,dc={{ openldap_org }},dc={{ openldap_tld }}"
     bind_pw: "{{ openldap_admin_password }}"
-  become: yes
   with_dict:
     userPassword: "{SHA512}{{ admin_hash.stdout }}"
 
