@@ -54,7 +54,7 @@
   pip:
     name:
       - python-ldap
-    state: latest
+    state: present
 
 - name: check to see if we have loaded password module for openldap
   command: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
@@ -64,14 +64,16 @@
   copy:
     src: pw.ldif
     dest: /tmp/pw.ldif
-  when: pw_sha2.stdout == "" | bool
+  when: pw_sha2.stdout == ""
 
 - name: load password module for openldap if we haven't yet
   command: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif
-  when: pw_sha2.stdout == "" | bool
+  when: pw_sha2.stdout == ""
 
 - name: calculate admin password hash
-  shell: "echo -n '{{ openldap_admin_password }}' | openssl dgst -sha512 -binary | openssl enc -base64"
+  shell: |
+    set -o pipefail;
+    echo -n '{{ openldap_admin_password }}' | openssl dgst -sha512 -binary | openssl enc -base64
   register: admin_hash
 
 - name: set admin password again to store it with new password hash scheme
