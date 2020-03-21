@@ -57,7 +57,7 @@
     state: present
 
 - name: Check to see if we have loaded password module for openldap
-  shell: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
+  command: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
   register: pw_sha2
   changed_when: pw_sha2.stdout == ""
 
@@ -68,7 +68,7 @@
   when: pw_sha2.stdout == ""
 
 - name: Load password module for openldap if we haven't yet
-  shell: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif
+  command: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif
   when: pw_sha2.stdout == ""
 
 - name: Calculate admin password hash
