@@ -47,7 +47,7 @@
       - ldap-utils
       # These are needed to be able to install python-ldap
       - build-essential
-      - python-dev
+      - python3-dev
       - libldap2-dev
       - libsasl2-dev
       - python-tox
