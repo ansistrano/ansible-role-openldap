@@ -50,6 +50,9 @@
       - python-dev
       - libldap2-dev
       - libsasl2-dev
+      - python-tox
+      - lcov
+      - valgrind
     state: present
 
 - name: Make sure setuptools and wheel pip modules are present (needed to build python-ldap)
