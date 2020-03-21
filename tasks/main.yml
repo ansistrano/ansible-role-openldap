@@ -56,27 +56,29 @@
       - python-ldap
     state: present
 
-- name: check to see if we have loaded password module for openldap
-  command: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
+- name: Check to see if we have loaded password module for openldap
+  shell: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
   register: pw_sha2
+  changed_when: pw_sha2.stdout == ""
 
-- name: copy ldif for pw module if needed
+- name: Copy ldif for pw module if needed
   copy:
     src: pw.ldif
     dest: /tmp/pw.ldif
   when: pw_sha2.stdout == ""
 
-- name: load password module for openldap if we haven't yet
-  command: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif
+- name: Load password module for openldap if we haven't yet
+  shell: ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f /tmp/pw.ldif
   when: pw_sha2.stdout == ""
 
-- name: calculate admin password hash
+- name: Calculate admin password hash
   shell: |
     set -o pipefail;
     echo -n '{{ openldap_admin_password }}' | openssl dgst -sha512 -binary | openssl enc -base64
   register: admin_hash
+  changed_when: admin_hash.stdout != ""
 
-- name: set admin password again to store it with new password hash scheme
+- name: Set admin password again to store it with new password hash scheme
   ldap_attr:
     dn: "cn=admin,dc={{ openldap_org }},dc={{ openldap_tld }}"
     name: "{{ item.key }}"
