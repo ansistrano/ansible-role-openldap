@@ -1,0 +1,21 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    openldap_org: ansistrano
+    openldap_tld: com
+    openldap_users:
+      - firstName: Ricard
+        lastName: Clau
+        # echo -n 'basuritas' | openssl dgst -sha512 -binary | openssl enc -base64
+        passwordHash: "{SHA512}N7AXxAZRKeOjvwVltyf65A/OF7tovSnEya4qvQd3xkgj9QmyB9VOvFIRbcca0PG4DhXJL/wPmPpy2fsbRkBROQ=="
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=yes cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+      changed_when: false
+
+  roles:
+    - role: ansistrano.openldap
