@@ -46,6 +46,7 @@
       - slapd
       - ldap-utils
       # These are needed to be able to install python-ldap
+      - python-dev
       - libldap2-dev
       - libsasl2-dev
     state: present
