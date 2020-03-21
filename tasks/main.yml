@@ -53,6 +53,7 @@
 - name: Make sure python-ldap module is present
   pip:
     name:
+      - wheel
       - python-ldap
     state: present
 
