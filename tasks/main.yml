@@ -48,9 +48,9 @@
       # These are needed to be able to install python-ldap
       - build-essential
       - python3-dev
+      - python3-pip
       - libldap2-dev
       - libsasl2-dev
-      - python-tox
       - lcov
       - valgrind
     state: present
