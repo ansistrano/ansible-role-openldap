@@ -69,10 +69,11 @@
     state: present
 
 - name: attempt to debug
-    command: /bin/cat /var/log/slapd.log
-    register: details
+  command: /bin/cat /var/log/slapd.log
+  register: details
 
-- debug: msg="{{ details.stdout_lines | quote }}"
+- debug:
+    msg: "{{ details.stdout_lines | quote }}"
 
 - name: Check to see if we have loaded password module for openldap
   command: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
