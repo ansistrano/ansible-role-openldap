@@ -68,6 +68,9 @@
       - python-ldap
     state: present
 
+- name: attempt to debug
+  shell: slapd -d -1
+
 - name: Check to see if we have loaded password module for openldap
   command: ldapsearch -H ldapi:// -Y EXTERNAL -b "cn=module{0},cn=config" -LLL -Q olcModuleLoad={1}pw-sha2
   register: pw_sha2
